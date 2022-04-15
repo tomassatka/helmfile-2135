@@ -1,0 +1,30 @@
+---
+# !!IMPORTANT!!
+# All false boolean values should be quoted due to https://github.com/helm/helm/issues/3308
+# Because of YAML merging, all true boolean values should be quoted as well
+environments:
+
+  default:
+    values:
+      - bitnami_helm_repo_url: https://charts.bitnami.com/bitnami
+
+  # This is a dummy environment used for base values that can
+  # be merged into other environments.
+  __base:
+    values:
+      # These services are only installed in the
+      # regional cluster, so we disable them for
+      # all zonal clusters, regardless of the environment.
+      - &artifactory_helm_repos
+        bitnami_helm_repo_url: https://charts.bitnami.com/bitnami
+
+  #### Begin environments #####
+  dev:
+    values:
+      - helmfile/environments/dev/release.yaml
+      - namespace: dev
+      - <<: *artifactory_helm_repos
+  int:
+    values:
+      - namespace: int
+      - <<: *artifactory_helm_repos

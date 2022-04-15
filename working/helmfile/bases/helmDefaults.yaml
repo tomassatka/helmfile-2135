@@ -1,0 +1,9 @@
+---
+helmDefaults:
+  atomic: true
+  cleanupOnFail: true
+  wait: false
+  timeout: 9999
+  # Do not recreate pods during upgrade when not required
+  recreatePods: false
+  createNamespace: false

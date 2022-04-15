@@ -1,0 +1,30 @@
+---
+bases:
+  - "../bases/helmDefaults.yaml"
+  - "../bases/environments.yaml"
+---
+repositories:
+  - name: bitnami
+    url: {{ .Values | getOrNil "bitnami_helm_repo_url" }}
+
+templates:
+  common: &common
+    namespace: {{ required "Namespace is required" .Values | getOrNil "namespace" }}
+    chart: ../../charts/{{`{{ .Release.Name }}`}}
+    values:
+      - "{{`{{ .Release.Name }}`}}.values.yaml.gotmpl"
+
+releases:
+  - name: chart1
+    <<: *common
+    version: {{ .Environment.Values | get "chart1.version" }}
+    labels:
+      tier: app
+      domain: services
+
+  - name: chart2
+    <<: *common
+    version: {{ .Environment.Values | get "chart2.version" }}
+    labels:
+      tier: app
+      domain: services
