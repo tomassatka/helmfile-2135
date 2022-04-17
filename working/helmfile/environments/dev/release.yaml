@@ -1,5 +1,8 @@
-chart1:
-  version: 0.1.0
+releases:
+  chart1:
+    version: 0.1.0
 
-chart2:
-  version: 0.1.0
+  chart2:
+    version: 0.1.0
+    values:
+      - datahub.enabled: true
